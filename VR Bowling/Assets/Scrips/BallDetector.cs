@@ -7,6 +7,8 @@ public class BallDetector : MonoBehaviour {
     public int waitForSeconds;
     public Animator cleanAlley;
     public Animator pinMachine;
+    private GameObject detectedBall;
+    public Transform ballReturnPos;
 
     // Use this for initialization
     private void OnTriggerEnter(Collider other)
@@ -14,6 +16,7 @@ public class BallDetector : MonoBehaviour {
         if(other.tag == "Ball")
         {
             StartCoroutine(BallDetected());
+            detectedBall = other.gameObject;
         }
     }
 
@@ -22,5 +25,6 @@ public class BallDetector : MonoBehaviour {
         yield return new WaitForSeconds(waitForSeconds);
         pinMachine.SetTrigger("Attach");
         cleanAlley.SetTrigger("Activated");
+        detectedBall.transform.position = ballReturnPos.position;
     }
 }

@@ -9,7 +9,7 @@ public class PinMachine : MonoBehaviour {
     public GameObject pin;
     public bool turn;
     public ScoreCalculator calculator;
-
+    //public string alley;
     private int frame1 = 0;
     private int frame2 = 0;
     public int player = 0;
@@ -18,9 +18,9 @@ public class PinMachine : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         turn = false;
-        foreach (GameObject pinPos in GameObject.FindGameObjectsWithTag("PinPosition"))
+        foreach (Transform pinPos in transform)
         {
-            pinPosition.Add(pinPos);
+            pinPosition.Add(pinPos.gameObject);
             GameObject newPin = Instantiate(pin, pinPos.transform.position, pinPos.transform.rotation, pinPos.transform);
             pinPos.GetComponent<PinHolder>().pin = newPin;
             newPin.GetComponent<Rigidbody>().isKinematic = true;

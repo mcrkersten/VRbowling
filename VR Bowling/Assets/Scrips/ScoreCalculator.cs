@@ -35,19 +35,17 @@ public class ScoreCalculator : MonoBehaviour {
                 {
                     scoreTotal = scoreTotal + score; 
                     playerNr[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //add score of current turn to total of last frame
+                    spare = false;
+                }
+                if (score == 0) //if miss
+                {
+                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = "--"; //Miss
                 }
                 else
                 {
-                    if (score == 0) //if miss
-                    {
-                        playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = "-"; //Miss
-                    }
-                    else
-                    {
-                        scoreTotal = scoreTotal + score; //Add score to scoreTotal
-                        playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = score.ToString(); //Normal business
-                    }                  
-                }
+                    scoreTotal = scoreTotal + score; //Add score to scoreTotal
+                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = score.ToString(); //Normal business
+                }                  
             }            
         }
 
@@ -58,7 +56,7 @@ public class ScoreCalculator : MonoBehaviour {
 
             if (scoreTurn1 + score == 10) //Spare has been thrown
             {
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "/";
+                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "/ ";
                 spare = true;
                 frameSet.frame++; //Next frame
                 return;//Stop Code
@@ -76,13 +74,13 @@ public class ScoreCalculator : MonoBehaviour {
             {
                 if (score == 0) //if miss
                 {
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "-";
+                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "--";
                 }
                 else
                 {
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = score.ToString();
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Update totatScore of last frame
+                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = score.ToString();                   
                 }
+                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Update totatScore of current frame
             }
             frameSet.frame++; //Next frame
         }
