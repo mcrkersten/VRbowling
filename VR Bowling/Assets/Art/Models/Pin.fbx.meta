@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: db96c7fc31d130a4086a64dd4dfeb850
-timeCreated: 1530808589
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -11,6 +9,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: pCube1
+    4300002: Pin
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -31,6 +30,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

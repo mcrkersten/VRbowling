@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 75e89463e9f63214c853bb08579b0b82
-timeCreated: 1530808588
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -11,28 +9,48 @@ ModelImporter:
     100006: PinBak 1
     100008: Track
     100010: pCube11
+    100012: PinBak1
+    100014: PinBak2
+    100016: PinBak3
+    100018: polySurface5
     400000: Guard
     400002: pCube12
     400004: //RootNode
     400006: PinBak 1
     400008: Track
     400010: pCube11
+    400012: PinBak1
+    400014: PinBak2
+    400016: PinBak3
+    400018: polySurface5
     2100000: lambert1
     2300000: Guard
     2300002: pCube12
     2300004: PinBak 1
     2300006: Track
     2300008: pCube11
+    2300010: PinBak1
+    2300012: PinBak2
+    2300014: PinBak3
+    2300016: polySurface5
     3300000: Guard
     3300002: pCube12
     3300004: PinBak 1
     3300006: Track
     3300008: pCube11
+    3300010: PinBak1
+    3300012: PinBak2
+    3300014: PinBak3
+    3300016: polySurface5
     4300000: Track
     4300002: Guard
     4300004: pCube12
     4300006: PinBak
     4300008: pCube11
+    4300010: polySurface5
+    4300012: PinBak1
+    4300014: PinBak2
+    4300016: PinBak3
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -53,6 +71,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

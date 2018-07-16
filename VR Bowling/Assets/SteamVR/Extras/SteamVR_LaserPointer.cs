@@ -1,6 +1,7 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
 using UnityEngine;
 using System.Collections;
+using Valve.VR;
 
 public struct PointerEventArgs
 {
@@ -25,6 +26,10 @@ public class SteamVR_LaserPointer : MonoBehaviour
     public Transform reference;
     public event PointerEventHandler PointerIn;
     public event PointerEventHandler PointerOut;
+
+    public RaycastHit hit;
+
+    public GameObject tempMenuObject;
 
     Transform previousContact = null;
 
@@ -84,13 +89,14 @@ public class SteamVR_LaserPointer : MonoBehaviour
             isActive = true;
             this.transform.GetChild(0).gameObject.SetActive(true);
         }
+        
 
         float dist = 100f;
 
         SteamVR_TrackedController controller = GetComponent<SteamVR_TrackedController>();
 
         Ray raycast = new Ray(transform.position, transform.forward);
-        RaycastHit hit;
+        
         bool bHit = Physics.Raycast(raycast, out hit);
 
         if(previousContact && previousContact != hit.transform)
@@ -137,5 +143,44 @@ public class SteamVR_LaserPointer : MonoBehaviour
             pointer.transform.localScale = new Vector3(thickness, thickness, dist);
         }
         pointer.transform.localPosition = new Vector3(0f, 0f, dist/2f);
+        MenuHit();
+    }
+
+    void MenuHit()
+    {
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.layer == 10)
+            {
+                if (hit.collider.gameObject != tempMenuObject && tempMenuObject != null)
+                {
+                    //Set colors of sprites back to normal of second to last hit object.
+                    tempMenuObject.GetComponent<HitByRay>().HitNotActive();
+                }
+                //Set colors of sprites to hit-mode.
+                tempMenuObject = hit.collider.gameObject;
+                hit.collider.gameObject.GetComponent<HitByRay>().HitActive();
+
+                if(Input.GetButtonDown("TrackPadL")|| Input.GetButtonDown("TrackPadR"))
+                {
+                    hit.collider.gameObject.GetComponent<HitByRay>().SendMessage(hit.collider.gameObject.GetComponent<HitByRay>().tag);
+                }
+            }
+            else
+            {
+                //If no menu-items are hit, set last to normal colors.
+                if (tempMenuObject != null)
+                {
+                    tempMenuObject.GetComponent<HitByRay>().HitNotActive();
+                }
+            }
+        }
+        else
+        {
+            if (tempMenuObject != null)
+            {
+                tempMenuObject.GetComponent<HitByRay>().HitNotActive();
+            }
+        }
     }
 }

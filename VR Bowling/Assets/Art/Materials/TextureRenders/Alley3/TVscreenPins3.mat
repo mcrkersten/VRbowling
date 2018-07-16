@@ -23,7 +23,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CameraTexture:
-        m_Texture: {fileID: 8400000, guid: af8e23b8e3ed99146bb7444d52fd6836, type: 2}
+        m_Texture: {fileID: 8400000, guid: dd677f1407c75b04e8cde9307bd88c2c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
