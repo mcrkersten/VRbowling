@@ -52,7 +52,6 @@ public class HitByRay : MonoBehaviour {
 
     public void Lane()
     {
-        player.transform.position = position.position;
-        lanesMenu.SetActive(false);
+        player.transform.position = position.position;     
     }
 }

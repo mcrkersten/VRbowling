@@ -28,7 +28,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
     public event PointerEventHandler PointerOut;
 
     public RaycastHit hit;
-
+    public SteamVR_Controller.Device device;
     public GameObject tempMenuObject;
 
     Transform previousContact = null;
@@ -36,6 +36,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        //controller = gameObject.GetComponent<SteamVR_TrackedObject>();
         holder = new GameObject();
         holder.transform.parent = this.transform;
         holder.transform.localPosition = Vector3.zero;
@@ -84,6 +85,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
     // Update is called once per frame
 	void Update ()
     {
+        ;
         if (!isActive)
         {
             isActive = true;
@@ -160,20 +162,20 @@ public class SteamVR_LaserPointer : MonoBehaviour
                 //Set colors of sprites to hit-mode.
                 tempMenuObject = hit.collider.gameObject;
                 hit.collider.gameObject.GetComponent<HitByRay>().HitActive();
-
-                if(Input.GetButtonDown("TrackPadL")|| Input.GetButtonDown("TrackPadR"))
+                
+                if (Input.GetButtonDown("TrackPadL") || Input.GetButtonDown("TrackPadR"))
                 {
                     hit.collider.gameObject.GetComponent<HitByRay>().SendMessage(hit.collider.gameObject.GetComponent<HitByRay>().tag);
                 }
-            }
-            else
-            {
-                //If no menu-items are hit, set last to normal colors.
-                if (tempMenuObject != null)
+                else
                 {
-                    tempMenuObject.GetComponent<HitByRay>().HitNotActive();
+                    //If no menu-items are hit, set last to normal colors.
+                    if (tempMenuObject != null)
+                    {
+                        tempMenuObject.GetComponent<HitByRay>().HitNotActive();
+                    }
                 }
-            }
+            }            
         }
         else
         {

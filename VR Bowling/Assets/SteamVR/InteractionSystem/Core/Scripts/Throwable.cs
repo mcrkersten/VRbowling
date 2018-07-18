@@ -111,6 +111,11 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private void OnAttachedToHand( Hand hand )
 		{
+            if(GetComponent<springHand>() != null)
+            {
+                GetComponent<springHand>().hand = hand;
+            }
+            
 			attached = true;
 
 			onPickUp.Invoke();
