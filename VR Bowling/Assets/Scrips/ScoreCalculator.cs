@@ -4,85 +4,150 @@ using UnityEngine;
 
 public class ScoreCalculator : MonoBehaviour {
 
-    private int scoreTurn1;
+    public List<int> scoreTurn1 = new List<int>();
+    public GameObject scoreObjectPrefab;
+    public GameObject scoreInstantiatePos;
     public PinMachine frameSet;
-    public int scoreTotal;
-    public GameObject[] playerNr;
+    public List<int> scoreTotal = new List<int>();
+    public List<GameObject> players = new List<GameObject>();
     private bool spare = false;
     private bool strike = false;
+    public int playerNumber;
+    public int player = 0;
+    public SCR_object colors;
+    private SpriteRenderer playerFrame;
 
-    public void ScoreCal(int score, bool turn, int player, int frame)
+    public void GameStart(int playersAmount)
+    {
+        playerNumber = playersAmount;
+        float tempPos = -0.2f;
+        for(int i = 0; i < playersAmount; i++)
+        {
+            GameObject scoreObject = Instantiate(scoreObjectPrefab, 
+                new Vector3(scoreInstantiatePos.transform.position.x,
+                    scoreInstantiatePos.transform.position.y - tempPos,
+                    scoreInstantiatePos.transform.position.z),
+                scoreInstantiatePos.transform.rotation,
+                scoreInstantiatePos.transform);
+            tempPos = tempPos + .2f;
+            players.Add(scoreObject);
+            scoreTotal.Add(0);
+            scoreTurn1.Add(0);
+        }
+        TurnPlayer();
+    }
+
+    public void ScoreCal(int score, bool turn, int frame)
     {
         if(turn == false) //Check turn in frame | false = turn 1
         {
-            scoreTurn1 = score; //Save score from turn 1
+            scoreTurn1[player] = score; //Save score from turn 1
             if (score == 10) //If player throws strike
             {
                 if (strike == true) //if last throw was strike also
                 {
-                    scoreTotal = scoreTotal + 30;
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Add score to last frame
+                    scoreTotal[player] = scoreTotal[player] + 30;
+                    players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Add score to last frame
                 }
-                scoreTotal += 10;
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "X";
+                scoreTotal[player] += 10;
+                players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "X";
                 strike = true;
-                frameSet.frame++; //Next frame
+                player++; //Next Player
+                if(player == playerNumber)
+                {
+                    frameSet.frame++; //Next Frame
+                    player = 0;
+                    TurnPlayer();
+                }
+                else
+                {
+                    TurnPlayer();
+                }
                 return;//Stop Code
             }
             else
             {
                 if(spare == true) //if last throw was spare
                 {
-                    scoreTotal = scoreTotal + score; 
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //add score of current turn to total of last frame
+                    scoreTotal[player] = scoreTotal[player] + score;
+                    players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //add score of current turn to total of last frame
                     spare = false;
                 }
                 if (score == 0) //if miss
                 {
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = "--"; //Miss
+                    players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = "--"; //Miss
                 }
                 else
                 {
-                    scoreTotal = scoreTotal + score; //Add score to scoreTotal
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = score.ToString(); //Normal business
+                    scoreTotal[player] = scoreTotal[player] + score; //Add score to scoreTotal
+                    players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[0].text = score.ToString(); //Normal business
                 }                  
             }            
         }
 
         else //If turn 2 in frame
         {
-            score -= scoreTurn1; //remove points from last turn
-            scoreTotal = scoreTotal + score; //Add score to scoreTotal
+            scoreTurn1[player] -= scoreTurn1[player]; //remove points from last turn
+            scoreTotal[player] = scoreTotal[player] + score; //Add score to scoreTotal
 
-            if (scoreTurn1 + score == 10) //Spare has been thrown
+            if (scoreTurn1[player] + score == 10) //Spare has been thrown
             {
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "/ ";
+                players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "/ ";
                 spare = true;
                 frameSet.frame++; //Next frame
+                if (player == playerNumber)
+                {
+                    frameSet.frame++; //Next Frame
+                    player = 0;
+                    TurnPlayer();
+                }
+                else
+                {
+                    TurnPlayer();
+                }
                 return;//Stop Code
             }
             if (strike == true) //last frame was strike 
             {
                 strike = false;
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Update totatScore of last frame
-                scoreTotal += (scoreTurn1);
-                scoreTotal += (score);
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Update totatScore of current frame
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = score.ToString();
+                players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal[player].ToString(); //Update totatScore of last frame
+                scoreTotal[player] += (scoreTurn1[player]);
+                scoreTotal[player] += (score);
+                players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().totalScore.text = scoreTotal[player].ToString(); //Update totatScore of current frame
+                players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = score.ToString();
             }
             else //if no strike or spare
             {
                 if (score == 0) //if miss
                 {
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "--";
+                    players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "--";
                 }
                 else
                 {
-                    playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = score.ToString();                   
+                    players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = score.ToString();                   
                 }
-                playerNr[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Update totatScore of current frame
+                players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().totalScore.text = scoreTotal[player].ToString(); //Update totatScore of current frame
             }
-            frameSet.frame++; //Next frame
+            player++; //Next Player
+            if (player == playerNumber)
+            {
+                frameSet.frame++; //Next Frame
+                player = 0;
+                TurnPlayer();
+            }
+            else
+            {
+                TurnPlayer();
+            }
         }
+    }
+    public void TurnPlayer()
+    {
+        if (playerFrame != null)
+        {
+            playerFrame.color = colors.nonPlayerTurn;
+        }
+        playerFrame = players[player].GetComponent<ScoreScreen>().scoreSprite;
+        playerFrame.color = colors.PlayerTurn;
     }
 }

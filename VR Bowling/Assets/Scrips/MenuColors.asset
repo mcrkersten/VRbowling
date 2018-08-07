@@ -13,5 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainNonHit: {r: 1, g: 1, b: 1, a: 0.45490196}
   Mainhit: {r: 0, g: 0.4357667, b: 1, a: 0.45490196}
-  SubHit: {r: 0, g: 0.3333335, b: 1, a: 0.35686275}
-  SubNonHit: {r: 1, g: 1, b: 1, a: 0.35686275}
+  SubHit: {r: 0, g: 0.3333335, b: 1, a: 0.0627451}
+  SubNonHit: {r: 1, g: 1, b: 1, a: 0.0627451}
+  PlayerTurn: {r: 1, g: 0.85891354, b: 0, a: 1}
+  nonPlayerTurn: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}

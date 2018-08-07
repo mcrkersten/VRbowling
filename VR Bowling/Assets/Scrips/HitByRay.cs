@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class HitByRay : MonoBehaviour {
 
@@ -8,13 +9,19 @@ public class HitByRay : MonoBehaviour {
     public SpriteRenderer[] subSprites;
     public SpriteRenderer mainSprite;
 
-    [Header("SelectLane")]
+    [Header("SelectPlayers")]
     public GameObject mainMenu;
-    public GameObject lanesMenu;
+    public GameObject playersMenu;
+    public GameObject laneMenu;
+    public GameObject[] lanes;
 
     [Header("Lane")]
     public Transform position;
     public GameObject player;
+    public int playerAmount;
+
+    [Header("Hands")]
+    public GameObject[] hands;
 
     // Use this for initialization
     void Start () {
@@ -44,14 +51,35 @@ public class HitByRay : MonoBehaviour {
         Application.Quit();
     }
 
-    public void SelectLane()
+    public void SelectPlayers()
     {
         mainMenu.SetActive(false);
-        lanesMenu.SetActive(true);
+        playersMenu.SetActive(true);
+    }
+
+    public void Players()
+    {
+        for(int i = 0; i < lanes.Length; i++)
+        {
+            lanes[i].GetComponent<ScoreCalculator>().GameStart(playerAmount);
+        }
+        laneMenu.SetActive(true);
+        playersMenu.SetActive(false);
     }
 
     public void Lane()
     {
-        player.transform.position = position.position;     
+        player.transform.position = position.position;
+        Lasers();    
+    }
+
+    public void Lasers()
+    {
+        //Turn lasers off
+        for(int i = 0; i < hands.Length; i++)
+        {
+            hands[i].GetComponent<SteamVR_LaserPointer>().thickness = 0f;
+        }
+        laneMenu.SetActive(false);
     }
 }

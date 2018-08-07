@@ -167,14 +167,6 @@ public class SteamVR_LaserPointer : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<HitByRay>().SendMessage(hit.collider.gameObject.GetComponent<HitByRay>().tag);
                 }
-                else
-                {
-                    //If no menu-items are hit, set last to normal colors.
-                    if (tempMenuObject != null)
-                    {
-                        tempMenuObject.GetComponent<HitByRay>().HitNotActive();
-                    }
-                }
             }            
         }
         else

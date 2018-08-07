@@ -9,19 +9,22 @@ public class PinMachine : MonoBehaviour {
     public GameObject pin;
     public bool turn;
     public ScoreCalculator calculator;
-    //public string alley;
-    private int frame1 = 0;
-    private int frame2 = 0;
-    public int player = 0;
-    public int frame = 0;
+    private int frame1 = 0; //Score in throw 1
+    private int frame2 = 0; //Score in throw 2
+    public int frame = 0; //Gets edited in ScoreCalculator
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         turn = false;
         foreach (Transform pinPos in transform)
         {
             pinPosition.Add(pinPos.gameObject);
-            GameObject newPin = Instantiate(pin, pinPos.transform.position, pinPos.transform.rotation, pinPos.transform);
+
+            GameObject newPin = Instantiate(pin, 
+                pinPos.transform.position, 
+                pinPos.transform.rotation, 
+                pinPos.transform);
+
             pinPos.GetComponent<PinHolder>().pin = newPin;
             newPin.GetComponent<Rigidbody>().isKinematic = true;
         }
@@ -54,13 +57,13 @@ public class PinMachine : MonoBehaviour {
                     {
                         ResetPins();
                         turn = false; //Frame 1 is actief na strike
-                        calculator.ScoreCal(frame1, turn, player, frame);
+                        calculator.ScoreCal(frame1, turn, frame);
                         frame1 = 0;
                         return;
                     }
                 }
             }
-            calculator.ScoreCal(frame1, turn, player, frame);
+            calculator.ScoreCal(frame1, turn, frame);
             turn = true; //Frame 2 is nu actief
         }
         else
@@ -76,13 +79,10 @@ public class PinMachine : MonoBehaviour {
                 {
                     frame2++;
                 }
-                //Reset pins for new player
-               
+                //Reset pins for new player              
             }
             ResetPins();
-            calculator.ScoreCal(frame2, turn, player, frame);
-            print(frame1 + " 1");
-            print(frame2 + " 2");
+            calculator.ScoreCal(frame2, turn, frame);
             turn = false; //Frame 1 is nu actief
 
             //reset score

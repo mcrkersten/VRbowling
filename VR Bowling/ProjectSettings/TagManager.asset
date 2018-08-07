@@ -7,8 +7,10 @@ TagManager:
   - Ball
   - PinPosition
   - Quite
-  - SelectLane
   - Lane
+  - SelectPlayers
+  - Players
+  - Hands
   layers:
   - Default
   - TransparentFX

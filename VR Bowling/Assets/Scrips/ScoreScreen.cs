@@ -6,13 +6,5 @@ using UnityEngine;
 public class ScoreScreen : MonoBehaviour {
 
     public GameObject[] frames;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public SpriteRenderer scoreSprite;
 }
