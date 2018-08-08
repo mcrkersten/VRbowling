@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,25 +6,38 @@ public class PinMachine : MonoBehaviour {
 
     public Animator guard;
     public List<GameObject> pinPosition = new List<GameObject>();
+    public BallDetector ballDetector;
     public GameObject pin;
     public bool turn;
     public ScoreCalculator calculator;
     private int frame1 = 0; //Score in throw 1
     private int frame2 = 0; //Score in throw 2
     public int frame = 0; //Gets edited in ScoreCalculator
+    public bool on = false;
+    public GameObject staticPins;
+
+    public Camera pinCamera;
+    public Camera scoreCamera;
+    public GameObject laneLight;
 
     // Use this for initialization
-    void Start () {
+    public void ActivateMachine() {
+
+        Destroy(staticPins);
+        pinCamera.enabled = true;
+        scoreCamera.enabled = true;
+        laneLight.SetActive(true);
+
         turn = false;
+        on = true;
+        ballDetector.ActivateLane();
         foreach (Transform pinPos in transform)
         {
-            pinPosition.Add(pinPos.gameObject);
-
+            pinPosition.Add(pinPos.gameObject);           
             GameObject newPin = Instantiate(pin, 
                 pinPos.transform.position, 
                 pinPos.transform.rotation, 
                 pinPos.transform);
-
             pinPos.GetComponent<PinHolder>().pin = newPin;
             newPin.GetComponent<Rigidbody>().isKinematic = true;
         }

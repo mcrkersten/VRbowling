@@ -6,7 +6,8 @@ public class BallDetector : MonoBehaviour {
 
     public int waitForSeconds;
     public Animator cleanAlley;
-    public Animator pinMachine;
+    public Animator pinMachineAnimator;
+    public PinMachine pinMachine;
     private GameObject detectedBall;
     public Transform ballReturnPos;
 
@@ -20,11 +21,26 @@ public class BallDetector : MonoBehaviour {
         }
     }
 
+    public void ActivateLane()
+    {
+        pinMachineAnimator.SetTrigger("Detache");
+    }
+
     IEnumerator BallDetected()
     {
         yield return new WaitForSeconds(waitForSeconds);
-        pinMachine.SetTrigger("Attach");
-        cleanAlley.SetTrigger("Activated");
-        detectedBall.transform.position = ballReturnPos.position;
+        if(pinMachine.on == false)
+        {
+            pinMachine.ActivateMachine();
+        }
+        else
+        {
+            pinMachineAnimator.SetTrigger("Attach");
+            cleanAlley.SetTrigger("Activated");
+        }
+        if (detectedBall != null)
+        {
+            detectedBall.transform.position = ballReturnPos.position;
+        }
     }
 }

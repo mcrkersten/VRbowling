@@ -6,11 +6,11 @@ TagManager:
   tags:
   - Ball
   - PinPosition
-  - Quite
   - Lane
   - SelectPlayers
   - Players
   - Hands
+  - Quit
   layers:
   - Default
   - TransparentFX

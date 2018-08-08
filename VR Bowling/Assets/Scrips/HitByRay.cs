@@ -19,6 +19,7 @@ public class HitByRay : MonoBehaviour {
     public Transform position;
     public GameObject player;
     public int playerAmount;
+    public PinMachine machine;
 
     [Header("Hands")]
     public GameObject[] hands;
@@ -46,7 +47,7 @@ public class HitByRay : MonoBehaviour {
         }
     }
 
-    public void Quite()
+    public void Quit()
     {
         Application.Quit();
     }
@@ -80,6 +81,8 @@ public class HitByRay : MonoBehaviour {
         {
             hands[i].GetComponent<SteamVR_LaserPointer>().thickness = 0f;
         }
+        //Turn MAchine on.
+        machine.ActivateMachine();
         laneMenu.SetActive(false);
     }
 }

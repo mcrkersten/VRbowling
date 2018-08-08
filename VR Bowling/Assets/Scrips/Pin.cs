@@ -6,8 +6,9 @@ public class Pin : MonoBehaviour {
 
     private Rigidbody rb;
     public bool hasFallen;
-    public float fallRotationMin;
-    public float fallRotationMax;
+    public float fallRotationMin; //20
+    public float fallRotationMax; //330
+
 
     private void Start()
     {
@@ -18,7 +19,7 @@ public class Pin : MonoBehaviour {
     {
         if(collision.gameObject.tag == "Ball")
         {
-            //rb.velocity = collision.gameObject.GetComponent<Rigidbody>().velocity;
+            rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().velocity);
         }
     }
 

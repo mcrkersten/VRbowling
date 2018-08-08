@@ -10,8 +10,8 @@ public class ScoreCalculator : MonoBehaviour {
     public PinMachine frameSet;
     public List<int> scoreTotal = new List<int>();
     public List<GameObject> players = new List<GameObject>();
-    private bool spare = false;
-    private bool strike = false;
+    private List<bool> spare = new List<bool>();
+    private List<bool> strike = new List<bool>();
     public int playerNumber;
     public int player = 0;
     public SCR_object colors;
@@ -33,6 +33,10 @@ public class ScoreCalculator : MonoBehaviour {
             players.Add(scoreObject);
             scoreTotal.Add(0);
             scoreTurn1.Add(0);
+
+            spare.Add(false);
+            strike.Add(false);
+
         }
         TurnPlayer();
     }
@@ -44,14 +48,14 @@ public class ScoreCalculator : MonoBehaviour {
             scoreTurn1[player] = score; //Save score from turn 1
             if (score == 10) //If player throws strike
             {
-                if (strike == true) //if last throw was strike also
+                if (strike[player] == true) //if last throw was strike also
                 {
                     scoreTotal[player] = scoreTotal[player] + 30;
-                    players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //Add score to last frame
+                    players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal[player].ToString(); //Add score to last frame
                 }
                 scoreTotal[player] += 10;
                 players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "X";
-                strike = true;
+                strike[player] = true;
                 player++; //Next Player
                 if(player == playerNumber)
                 {
@@ -67,11 +71,11 @@ public class ScoreCalculator : MonoBehaviour {
             }
             else
             {
-                if(spare == true) //if last throw was spare
+                if(spare[player] == true) //if last throw was spare
                 {
                     scoreTotal[player] = scoreTotal[player] + score;
-                    players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal.ToString(); //add score of current turn to total of last frame
-                    spare = false;
+                    players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal[player].ToString(); //add score of current turn to total of last frame
+                    spare[player] = false;
                 }
                 if (score == 0) //if miss
                 {
@@ -87,13 +91,13 @@ public class ScoreCalculator : MonoBehaviour {
 
         else //If turn 2 in frame
         {
-            scoreTurn1[player] -= scoreTurn1[player]; //remove points from last turn
+            score -= scoreTurn1[player]; //remove points from last turn
             scoreTotal[player] = scoreTotal[player] + score; //Add score to scoreTotal
 
             if (scoreTurn1[player] + score == 10) //Spare has been thrown
             {
                 players[player].GetComponent<ScoreScreen>().frames[frame].GetComponent<ScoreFrame>().subFrame[1].text = "/ ";
-                spare = true;
+                spare[player] = true;
                 frameSet.frame++; //Next frame
                 if (player == playerNumber)
                 {
@@ -107,9 +111,9 @@ public class ScoreCalculator : MonoBehaviour {
                 }
                 return;//Stop Code
             }
-            if (strike == true) //last frame was strike 
+            if (strike[player] == true) //last frame was strike 
             {
-                strike = false;
+                strike[player] = false;
                 players[player].GetComponent<ScoreScreen>().frames[frame - 1].GetComponent<ScoreFrame>().totalScore.text = scoreTotal[player].ToString(); //Update totatScore of last frame
                 scoreTotal[player] += (scoreTurn1[player]);
                 scoreTotal[player] += (score);

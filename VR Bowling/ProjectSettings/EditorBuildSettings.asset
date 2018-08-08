@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Alleys.unity
+    guid: 74ab90045d5512a40a2685882fdac87b
+  m_configObjects: {}
