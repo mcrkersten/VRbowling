@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using Valve.VR;
+using UnityEngine.SceneManagement;
 
 public struct PointerEventArgs
 {
@@ -85,7 +86,10 @@ public class SteamVR_LaserPointer : MonoBehaviour
     // Update is called once per frame
 	void Update ()
     {
-        ;
+        if(Input.GetButtonDown("restart-L") || Input.GetButtonDown("restart-R")){
+            SceneManager.LoadScene(0);
+        }
+
         if (!isActive)
         {
             isActive = true;
